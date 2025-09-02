@@ -5,7 +5,7 @@ export const runtime = "edge";
 
 export async function POST(req: NextRequest) {
   try {
-    const { url, templateId } = await req.json();
+    const { url } = await req.json();
     
     if (!url) {
       return NextResponse.json(

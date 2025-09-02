@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, Save, Share2, Download, Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import Image from "next/image";
 
 interface Template {
   id: string;
@@ -279,9 +280,11 @@ export default function TemplateEditorPage({
                   {imgUrl ? (
                     <div className="space-y-4">
                       <div className="relative">
-                        <img
+                        <Image
                           src={imgUrl}
                           alt="Generated image"
+                          width={template.width}
+                          height={template.height}
                           className="w-full h-auto rounded-lg border"
                         />
                       </div>

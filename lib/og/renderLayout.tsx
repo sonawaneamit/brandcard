@@ -35,6 +35,7 @@ export async function renderOG(props: LayoutProps) {
         {values.photo ? (
           <img
             src={values.photo}
+            alt="Background"
             style={{ 
               position: "absolute", 
               inset: 0, 
@@ -88,6 +89,7 @@ export async function renderOG(props: LayoutProps) {
         {brand.logoUrl ? (
           <img 
             src={brand.logoUrl} 
+            alt="Logo"
             style={{ 
               position: "absolute", 
               top: 28, 

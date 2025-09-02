@@ -12,7 +12,7 @@ export async function uploadToStorage(
   path: string,
   contentType: string
 ) {
-  const { data, error } = await supabaseAdmin.storage
+  const { error } = await supabaseAdmin.storage
     .from("renders")
     .upload(path, new Uint8Array(buf), { contentType, upsert: true });
   
@@ -83,7 +83,7 @@ export async function loadBrandKitAssets(brandKitId: string | null) {
 export async function createRender(
   userId: string | null,
   templateId: string,
-  payload: Record<string, any>,
+  payload: Record<string, string>,
   url: string,
   size: string = "original"
 ) {

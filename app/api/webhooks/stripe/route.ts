@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-async function handleSubscriptionChange(subscription: any) {
+async function handleSubscriptionChange(subscription: { customer: string; id: string; status: string; items: { data: Array<{ price?: { nickname?: string } }> }; current_period_end: number }) {
   // Find user by Stripe customer ID
   const { data: user } = await supabaseAdmin
     .from("users")
@@ -70,7 +70,7 @@ async function handleSubscriptionChange(subscription: any) {
     });
 }
 
-async function handleSubscriptionDeletion(subscription: any) {
+async function handleSubscriptionDeletion(subscription: { id: string }) {
   await supabaseAdmin
     .from("subscriptions")
     .update({ status: "canceled" })

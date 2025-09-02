@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Copy, Download, Sparkles, Link as LinkIcon } from "lucide-react";
+import { Loader2, Copy, Download, Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import Link from "next/link";
 
 interface Template {
   id: string;
@@ -168,7 +169,7 @@ export default function PublicTemplateForm({ templateId }: PublicTemplateFormPro
             <span className="font-bold text-xl">Brandcard</span>
           </div>
           <Button variant="outline" asChild>
-            <a href="/">Back to Home</a>
+            <Link href="/">Back to Home</Link>
           </Button>
         </div>
       </header>
@@ -286,7 +287,7 @@ export default function PublicTemplateForm({ templateId }: PublicTemplateFormPro
                 ) : (
                   <div className="aspect-square bg-slate-100 rounded-lg flex items-center justify-center">
                     <div className="text-center text-slate-500">
-                      <Image className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                                              <div className="w-12 h-12 mx-auto mb-2 opacity-50 bg-slate-300 rounded"></div>
                       <p>Your image will appear here</p>
                     </div>
                   </div>

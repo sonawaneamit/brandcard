@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Image, Share2, Download } from "lucide-react";
+import { Plus, Share2, Download } from "lucide-react";
 
 export default function DashboardPage() {
   // Mock data - in real app this would come from Supabase
@@ -151,7 +151,6 @@ export default function DashboardPage() {
                       <div className="flex space-x-2">
                         <Button size="sm" variant="outline" asChild>
                           <Link href={`/templates/${template.id}`}>
-                            <Image className="w-4 h-4 mr-1" />
                             Edit
                           </Link>
                         </Button>
@@ -180,7 +179,7 @@ export default function DashboardPage() {
                   <CardContent className="p-4">
                     <div className="flex items-center space-x-4">
                       <div className="w-16 h-16 bg-slate-200 rounded-lg flex items-center justify-center">
-                        <Image className="w-6 h-6 text-slate-400" />
+                        <div className="w-6 h-6 bg-slate-400 rounded"></div>
                       </div>
                       <div className="flex-1">
                         <h3 className="font-medium">{render.templateName}</h3>
