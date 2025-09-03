@@ -1,9 +1,10 @@
 import PublicTemplateForm from "@/components/forms/PublicTemplateForm";
 
-export default function PublicFormPage({ 
+export default async function PublicFormPage({ 
   params 
 }: { 
-  params: { id: string } 
+  params: Promise<{ id: string }> 
 }) {
-  return <PublicTemplateForm templateId={params.id} />;
+  const { id } = await params;
+  return <PublicTemplateForm templateId={id} />;
 }
