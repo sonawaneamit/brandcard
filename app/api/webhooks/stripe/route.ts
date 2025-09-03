@@ -3,6 +3,11 @@ import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabaseClient";
 import Stripe from "stripe";
 
+// Extended type for subscription with current_period_end
+type SubscriptionWithPeriod = Stripe.Subscription & {
+  current_period_end?: number;
+};
+
 export async function POST(req: NextRequest) {
   try {
     const sig = req.headers.get("stripe-signature")!;
@@ -45,7 +50,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-async function handleSubscriptionChange(subscription: Stripe.Subscription) {
+async function handleSubscriptionChange(subscription: SubscriptionWithPeriod) {
   // Find user by Stripe customer ID
   const customerId = typeof subscription.customer === 'string' 
     ? subscription.customer 
@@ -71,8 +76,8 @@ async function handleSubscriptionChange(subscription: Stripe.Subscription) {
       stripe_sub_id: subscription.id,
       plan: subscription.items.data[0]?.price?.nickname || "unknown",
       status: subscription.status,
-      current_period_end: (subscription as any).current_period_end 
-        ? new Date((subscription as any).current_period_end * 1000).toISOString()
+      current_period_end: subscription.current_period_end 
+        ? new Date(subscription.current_period_end * 1000).toISOString()
         : new Date().toISOString(),
     });
 }
