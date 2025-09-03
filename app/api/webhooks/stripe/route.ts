@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabaseClient";
+import Stripe from "stripe";
 
 export async function POST(req: NextRequest) {
   try {
@@ -44,16 +45,20 @@ export async function POST(req: NextRequest) {
   }
 }
 
-async function handleSubscriptionChange(subscription: { customer: string; id: string; status: string; items: { data: Array<{ price?: { nickname?: string } }> }; current_period_end: number }) {
+async function handleSubscriptionChange(subscription: Stripe.Subscription) {
   // Find user by Stripe customer ID
+  const customerId = typeof subscription.customer === 'string' 
+    ? subscription.customer 
+    : subscription.customer.id;
+    
   const { data: user } = await supabaseAdmin
     .from("users")
     .select("id")
-    .eq("stripe_customer_id", subscription.customer)
+    .eq("stripe_customer_id", customerId)
     .single();
 
   if (!user) {
-    console.error("User not found for customer:", subscription.customer);
+    console.error("User not found for customer:", customerId);
     return;
   }
 
@@ -62,7 +67,7 @@ async function handleSubscriptionChange(subscription: { customer: string; id: st
     .from("subscriptions")
     .upsert({
       user_id: user.id,
-      stripe_customer_id: subscription.customer,
+      stripe_customer_id: customerId,
       stripe_sub_id: subscription.id,
       plan: subscription.items.data[0]?.price?.nickname || "unknown",
       status: subscription.status,
@@ -70,7 +75,7 @@ async function handleSubscriptionChange(subscription: { customer: string; id: st
     });
 }
 
-async function handleSubscriptionDeletion(subscription: { id: string }) {
+async function handleSubscriptionDeletion(subscription: Stripe.Subscription) {
   await supabaseAdmin
     .from("subscriptions")
     .update({ status: "canceled" })
