@@ -94,8 +94,8 @@ export default function TemplateEditorClient({ templateId }: TemplateEditorClien
   const handleSmartFill = async () => {
     if (!template) return;
     
-    const prompt = prompt("Enter a brief description of what you want to promote:");
-    if (!prompt) return;
+    const userPrompt = window.prompt("Enter a brief description of what you want to promote:");
+    if (!userPrompt) return;
     
     try {
       const response = await fetch("/api/smartfill", {
@@ -103,7 +103,7 @@ export default function TemplateEditorClient({ templateId }: TemplateEditorClien
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           templateId: template.id,
-          prompt
+          prompt: userPrompt
         })
       });
       
